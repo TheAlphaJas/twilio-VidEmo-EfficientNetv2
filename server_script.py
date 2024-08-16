@@ -7,8 +7,8 @@ from requests.auth import HTTPBasicAuth
 from twilio.rest import Client
 import numpy as np
 
-os.environ["TWILIO_ACCOUNT_SID"] = "AC3a3f4061666f375b047be145d58c1f7c"
-os.environ["TWILIO_AUTH_TOKEN"] = "d562b7008a888cad312bd93a97f5ecf1"
+os.environ["TWILIO_ACCOUNT_SID"] = "YOUR SID"
+os.environ["TWILIO_AUTH_TOKEN"] = "YOUR AUTH KEY"
 
 account_sid = os.environ["TWILIO_ACCOUNT_SID"] 
 auth_token = os.environ["TWILIO_AUTH_TOKEN"] 
@@ -58,13 +58,16 @@ async def reply_whatsapp():
             save_video(download_video(media_url,os.environ["TWILIO_ACCOUNT_SID"],os.environ["TWILIO_AUTH_TOKEN"]), "video.mp4")
             emotion = await predict_for_video("video.mp4")
             dict = {
-            0:"Negative",    
-            1:"Neutral",
-            2:"Positive"
+                0:"Negative",    
+                1:"Neutral",
+                2:"Positive"
             }
             print(emotion)
-            if (emotion[2] >= 0.38):
+            #Reducing threshold for positive and neutral due to bias of model towards negative
+            if (emotion[2] >= 0.30):
                 emotion = "Positive"
+            elif (emotion[1] >= 0.30):
+                emotion = "Neutral"
             else:
                 emotion = dict[np.argmax(emotion)]
             print(emotion)
