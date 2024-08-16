@@ -50,7 +50,7 @@ def get_face_arrays(video_path):
     frame_rate = get_video_frame_rate(video_path)
     video_length = get_video_length(video_path)
     total_frames = video_length*frame_rate
-    detection_frequency = int(max((total_frames/256),1))
+    detection_frequency = 1
     detected_faces = extract_image_arrays_with_faces(video_path, detection_frequency)
     return detected_faces
 
