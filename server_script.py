@@ -63,7 +63,10 @@ async def reply_whatsapp():
             2:"Positive"
             }
             print(emotion)
-            emotion = dict[np.argmax(emotion)]
+            if (emotion[2] >= 0.38):
+                emotion = "Positive"
+            else:
+                emotion = dict[np.argmax(emotion)]
             print(emotion)
             send_message(f"The sentiment of the video is: {emotion}", sender_number)
     return ""
